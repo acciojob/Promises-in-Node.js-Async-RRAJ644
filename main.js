@@ -1,36 +1,36 @@
-const fs = require('fs')
+const fs = require("fs");
 
-const filePath = process.argv[2]
+const filePath = process.argv[2];
 
 function readFileAsync(filePath) {
   return new Promise((resolve, reject) => {
-    fs.readFile(filePath, 'utf8', (err, data) => {
+    fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
-        reject(`Error reading file ${filePath}: ${err}`)
-        return
+        reject(`Error reading file ${filePath}: ${err}`);
+        return;
       }
-      resolve(data)
-    })
-  })
+      resolve(data);
+    });
+  });
 }
 
 function modifyText(text) {
   return new Promise((resolve, reject) => {
     // TODO: Convert text to uppercase and reverse it
-    try {
-      const modifiedText = text.toUpperCase().split('').reverse().join('')
-      resolve(modifiedText)
-    } catch (error) {
-      reject(`Error modifying text: ${error}`)
+    if (!text || typeof text !== "string") {
+      reject("Invalid text");
+      return;
     }
-  })
+    const modiText = text.toUpperCase().split("").reverse().join("");
+    resolve(modiText);
+  });
 }
 
 readFileAsync(filePath)
   .then((data) => modifyText(data))
   .then((modifiedText) => {
-    console.log(modifiedText)
+    console.log(modifiedText);
   })
   .catch((error) => {
-    console.error(error)
-  })
+    console.error(error);
+  });
